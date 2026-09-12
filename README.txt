@@ -1,9 +1,32 @@
-CEDARMC WEBSITE
-===============
-1. Open index.html to preview the site locally.
-2. In script.js, replace discordUrl:'#' with your Discord invite URL.
-3. Upload index.html, style.css, script.js and the assets folder to your web host.
-4. For live bot/Minecraft status, set statusApi to your bot's public /api/status URL after the bot website endpoint is exposed.
-5. Point bot.cedarmc.org to the web host using the DNS record supplied by that host.
+CEDARMC WEBSITE - UPDATED
 
-IMPORTANT: Do not remove/change your existing cedarmc.org Minecraft DNS records just to add bot.cedarmc.org.
+Files to upload to the root of your GitHub Pages repository:
+- index.html
+- style.css
+- script.js
+- cedarmc-welcome.png
+- ticket-support.png
+
+IMPORTANT:
+The HTML now expects these image files in the SAME root folder as index.html:
+- cedarmc-welcome.png
+- ticket-support.png
+
+This fixes the old broken image path issue where the website looked inside an /assets/ folder that did not exist.
+
+DISCORD LINK:
+Open script.js and replace:
+  discordUrl: '#',
+with your real invite, for example:
+  discordUrl: 'https://discord.gg/yourinvite',
+
+LIVE STATUS:
+The site is ready to use a status API later. Replace:
+  statusApi: ''
+with your API endpoint when one is available.
+
+SERVER ADDRESS:
+The Copy IP buttons use:
+  CedarMc.org
+
+GitHub Pages may take a minute or two to show a new commit after upload.

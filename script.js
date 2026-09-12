@@ -1,5 +1,86 @@
-const CONFIG={discordUrl:'#',statusApi:''};
-document.querySelectorAll('.discord-link').forEach(a=>a.href=CONFIG.discordUrl);
-function copyIP(){navigator.clipboard.writeText('CedarMc.org').then(()=>{document.getElementById('copyNote').textContent='Copied CedarMc.org to clipboard!';setTimeout(()=>document.getElementById('copyNote').textContent='Java server address: CedarMc.org',2200)}).catch(()=>prompt('Copy the server IP:','CedarMc.org'))}
-document.getElementById('copyIp').onclick=copyIP;document.getElementById('copyIp2').onclick=copyIP;
-async function refresh(){if(!CONFIG.statusApi){document.getElementById('mcState').textContent='CedarMC';document.getElementById('mcPlayers').textContent='CedarMc.org • Click Copy IP to join';document.getElementById('botState').textContent='CedarMc APP';return}try{const s=await fetch(CONFIG.statusApi).then(r=>r.json());document.getElementById('mcState').textContent=s.minecraft.online?'Online':'Offline';document.getElementById('mcDot').className='dot '+(s.minecraft.online?'on':'');document.getElementById('mcPlayers').textContent=s.minecraft.online?`${s.minecraft.players} / ${s.minecraft.maxPlayers} players • CedarMc.org`:'CedarMc.org';document.getElementById('botState').textContent=s.bot.online?'Online':'Offline';document.getElementById('botDot').className='dot '+(s.bot.online?'on':'');if(s.discord.members!=null)document.getElementById('members').textContent=`${s.discord.members.toLocaleString()} Members`}catch(e){}}refresh();setInterval(refresh,30000);
+const CONFIG = {
+  discordUrl: '#',
+  statusApi: ''
+};
+
+const toast = document.getElementById('toast');
+let toastTimer;
+
+function showToast(message) {
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(`Copied ${text}`);
+  } catch {
+    const temp = document.createElement('textarea');
+    temp.value = text;
+    temp.setAttribute('readonly', '');
+    temp.style.position = 'fixed';
+    temp.style.opacity = '0';
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    temp.remove();
+    showToast(`Copied ${text}`);
+  }
+}
+
+document.querySelectorAll('.copy-ip').forEach((button) => {
+  button.addEventListener('click', () => {
+    copyText(button.dataset.ip || 'CedarMc.org');
+  });
+});
+
+document.querySelectorAll('.discord-link').forEach((link) => {
+  if (CONFIG.discordUrl && CONFIG.discordUrl !== '#') {
+    link.href = CONFIG.discordUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  } else {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      showToast('Discord invite link not added yet');
+    });
+  }
+});
+
+async function loadStatus() {
+  const statusText = document.getElementById('serverStatus');
+  if (!statusText) return;
+
+  if (!CONFIG.statusApi) {
+    statusText.textContent = 'CedarMC Online';
+    return;
+  }
+
+  try {
+    const response = await fetch(CONFIG.statusApi, { cache: 'no-store' });
+    if (!response.ok) throw new Error('Status request failed');
+    const data = await response.json();
+
+    if (data.online === false || data.minecraft?.online === false) {
+      statusText.textContent = 'Server Offline';
+      return;
+    }
+
+    const onlinePlayers =
+      data.players?.online ??
+      data.minecraft?.players?.online ??
+      data.onlinePlayers;
+
+    statusText.textContent = Number.isFinite(onlinePlayers)
+      ? `${onlinePlayers} Player${onlinePlayers === 1 ? '' : 's'} Online`
+      : 'CedarMC Online';
+  } catch {
+    statusText.textContent = 'CedarMC';
+  }
+}
+
+loadStatus();
