@@ -81,8 +81,8 @@
 
           <div class="editor-card">
             <div class="section-title"><div><p class="eyebrow">MANAGEMENT</p><h2>Priority, Waiting & Auto-Close</h2></div><span class="badge green">New</span></div>
-            <p class="sub">Priority and waiting status are changed per ticket from Active Tickets. Set the defaults and inactivity rules here.</p>
-            <label>Default ticket priority<select id="defaultPriority"><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
+            <p class="sub">Staff can press 🚨 Mark Urgent inside a ticket. The ticket will move into the Discord category selected below.</p>
+            <label>Urgent Tickets category<select id="urgentCategory"><option value="">Choose category…</option></select></label>
             <label class="toggle-row"><span><strong>Auto-close inactive tickets</strong><small>Automatically closes tickets after no new messages for the selected number of hours.</small></span><input id="autoCloseEnabled" type="checkbox"></label>
             <label>Inactive hours before auto-close<input id="autoCloseHours" type="number" min="1" max="720" value="72"></label>
           </div>
