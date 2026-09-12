@@ -1,5 +1,5 @@
 const CONFIG = {
-  discordUrl: '#',
+  discordUrl: 'https://discord.gg/8ebXDXQYe',
   statusApi: ''
 };
 
