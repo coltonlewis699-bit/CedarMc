@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CedarMC • Staff Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css?v=4">
+  <link rel="stylesheet" href="dashboard.css?v=4.2">
 </head>
 <body>
   <div id="loginScreen" class="login-screen">
@@ -36,7 +36,7 @@
 
       <section id="ticketsView" class="grid">
         <div class="editor-card">
-          <div class="section-title"><div><p class="eyebrow">PANEL</p><h2>Appearance</h2></div><span class="badge">Tickets v4</span></div>
+          <div class="section-title"><div><p class="eyebrow">PANEL</p><h2>Appearance</h2></div><span class="badge">Tickets v4.2</span></div>
           <label>Panel title<input id="title" maxlength="256"></label>
           <label>Description<textarea id="description" rows="7"></textarea></label>
           <div class="two-col"><label>Footer<input id="footer" maxlength="2048"></label><label>Embed color<div class="color-field"><input id="color" maxlength="7"><input id="colorPicker" type="color"></div></label></div>
@@ -66,6 +66,14 @@
           <label>Transfer label<input id="transferLabel" maxlength="80"></label>
 
           <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">TICKET MANAGEMENT</p><h2>Priority, Waiting & Auto-Close</h2></div></div>
+          <div class="two-col">
+            <label>Default priority<select id="defaultPriority"><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option><option value="urgent">Urgent</option></select></label>
+            <label>Auto-close after<input id="autoCloseHours" type="number" min="1" max="720" value="72"><small class="field-help">Hours without a new message.</small></label>
+          </div>
+          <label class="toggle-row"><span><strong>Auto-close inactive tickets</strong><small>Creates the transcript first, then closes tickets after the inactivity limit.</small></span><input id="autoCloseEnabled" type="checkbox"></label>
+
+          <div class="divider"></div>
           <div class="section-title compact"><div><p class="eyebrow">OWNER PERMISSIONS</p><h2>What ticket creators can do</h2></div></div>
           <div class="toggle-grid">
             <label class="toggle-row"><span><strong>Add members</strong></span><input id="ownerAddMembers" type="checkbox"></label>
@@ -81,13 +89,14 @@
           <div class="actions"><button id="saveBtn" class="secondary">Save Ticket System</button><button id="sendBtn" class="primary">Send New Panel</button></div><p id="statusMessage" class="status-message"></p>
         </div>
 
-        <div class="preview-wrap"><div class="preview-sticky"><p class="eyebrow">LIVE PREVIEW</p><div class="discord-preview"><div class="discord-author"><div class="avatar">🌲</div><strong>CedarMC</strong><span>APP</span><small>Today</small></div><div class="embed" id="previewEmbed"><div id="previewTitle" class="embed-title"></div><div id="previewDescription" class="embed-description"></div><div id="previewImage" class="banner">CEDARMC SUPPORT</div><div id="previewFooter" class="embed-footer"></div></div><div id="previewButtons" class="discord-buttons"></div></div><div class="tip"><strong>Tickets v4</strong><span>Active ticket management, claim transfers, role-based staff access, and audit logging are enabled.</span></div></div></div>
+        <div class="preview-wrap"><div class="preview-sticky"><p class="eyebrow">LIVE PREVIEW</p><div class="discord-preview"><div class="discord-author"><div class="avatar">🌲</div><strong>CedarMC</strong><span>APP</span><small>Today</small></div><div class="embed" id="previewEmbed"><div id="previewTitle" class="embed-title"></div><div id="previewDescription" class="embed-description"></div><div id="previewImage" class="banner">CEDARMC SUPPORT</div><div id="previewFooter" class="embed-footer"></div></div><div id="previewButtons" class="discord-buttons"></div></div><div class="tip"><strong>Tickets v4.2</strong><span>Priority, waiting status, workload tracking, auto-close, claim transfers, and audit logging are enabled.</span></div></div></div>
       </section>
 
       <section id="activeView" class="hidden">
         <div class="editor-card wide-card">
           <div class="section-title"><div><p class="eyebrow">LIVE SUPPORT</p><h2>Active Tickets</h2></div><button id="refreshTicketsBtn" class="secondary">Refresh</button></div>
-          <div class="ticket-toolbar"><input id="ticketSearch" placeholder="Search ticket, owner, or staff…"><select id="ticketFilter"><option value="all">All tickets</option><option value="claimed">Claimed</option><option value="unclaimed">Unclaimed</option></select></div>
+          <div class="ticket-toolbar"><input id="ticketSearch" placeholder="Search ticket, owner, or staff…"><select id="ticketFilter"><option value="all">All tickets</option><option value="claimed">Claimed</option><option value="unclaimed">Unclaimed</option><option value="waiting-user">Waiting on User</option><option value="waiting-staff">Waiting on Staff</option><option value="urgent">Urgent Priority</option></select></div>
+          <div class="workload-panel"><div class="section-title compact"><div><p class="eyebrow">STAFF WORKLOAD</p><h2>Open Tickets by Staff</h2></div></div><div id="workloadList" class="workload-list"></div></div>
           <div id="activeTicketsList" class="active-list"></div>
           <p id="activeStatus" class="status-message"></p>
         </div>
@@ -96,6 +105,6 @@
       <section id="auditView" class="hidden"><div class="editor-card audit-card"><div class="section-title"><div><p class="eyebrow">SECURITY</p><h2>Audit Log</h2></div><button id="refreshAuditBtn" class="secondary">Refresh</button></div><p class="sub">Recent dashboard actions and who performed them.</p><div id="auditList" class="audit-list"></div></div></section>
     </main>
   </div>
-  <script src="dashboard.js?v=4"></script>
+  <script src="dashboard.js?v=4.2"></script>
 </body>
 </html>
