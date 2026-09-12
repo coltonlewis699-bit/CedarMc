@@ -4,17 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CedarMC • Staff Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css?v=3">
+  <link rel="stylesheet" href="dashboard.css?v=4">
 </head>
 <body>
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
-      <div class="login-mark">▲</div>
-      <p class="eyebrow">CEDARMC STAFF</p>
-      <h1>Bot Dashboard</h1>
+      <div class="login-mark">▲</div><p class="eyebrow">CEDARMC STAFF</p><h1>Bot Dashboard</h1>
       <p>Sign in with Discord to manage CedarMC. Access is limited to approved staff roles.</p>
-      <button id="loginBtn" class="discord-login">Sign in with Discord</button>
-      <p id="loginMessage" class="login-message"></p>
+      <button id="loginBtn" class="discord-login">Sign in with Discord</button><p id="loginMessage" class="login-message"></p>
     </div>
   </div>
 
@@ -22,95 +19,83 @@
     <aside class="sidebar">
       <div class="brand"><div class="tree">▲</div><div><strong>CedarMC</strong><span>Staff Dashboard</span></div></div>
       <nav>
-        <a class="nav-link active" href="#tickets"><span>🎫</span> Tickets</a>
-        <a class="nav-link" href="#audit" id="auditNav"><span>🧾</span> Audit Log</a>
+        <a class="nav-link active" href="#tickets" data-view="tickets"><span>🎫</span> Ticket Editor</a>
+        <a class="nav-link" href="#active" data-view="active"><span>📬</span> Active Tickets <b id="activeCount">0</b></a>
+        <a class="nav-link" href="#audit" data-view="audit"><span>🧾</span> Audit Log</a>
         <a class="nav-link disabled" href="#"><span>📋</span> Applications <b>Soon</b></a>
         <a class="nav-link disabled" href="#"><span>🎭</span> Reaction Roles <b>Soon</b></a>
-        <a class="nav-link disabled" href="#"><span>🎉</span> Giveaways <b>Soon</b></a>
       </nav>
       <div class="sidebar-foot"><span class="dot online"></span><span>Connected to CedarMC</span></div>
     </aside>
 
     <main>
       <header>
-        <div><p class="eyebrow">CEDARMC APP</p><h1>Tickets v2</h1><p class="sub">Control your full CedarMC support system from one place.</p></div>
-        <div class="profile-wrap">
-          <button id="profileBtn" class="profile-btn"><img id="profileAvatar" alt=""><span><strong id="profileName">Staff</strong><small id="profileRole">CedarMC Staff</small></span></button>
-          <div id="profileMenu" class="profile-menu hidden"><div class="profile-menu-head"><strong id="menuName">Staff</strong><small id="menuUsername"></small></div><button id="logoutBtn" class="logout-btn">Log out</button></div>
-        </div>
+        <div><p class="eyebrow">CEDARMC APP</p><h1 id="pageTitle">Ticket System</h1><p class="sub" id="pageSub">Configure tickets, staff permissions, claiming, and the support panel.</p></div>
+        <div class="profile-wrap"><button id="profileBtn" class="profile-btn"><img id="profileAvatar" alt=""><span><strong id="profileName">Staff</strong><small id="profileRole">CedarMC Staff</small></span></button><div id="profileMenu" class="profile-menu hidden"><div class="profile-menu-head"><strong id="menuName">Staff</strong><small id="menuUsername"></small></div><button id="logoutBtn" class="logout-btn">Log out</button></div></div>
       </header>
 
-      <section id="ticketsView" class="tickets-layout">
-        <div class="editor-stack">
-          <div class="editor-card">
-            <div class="section-title"><div><p class="eyebrow">PANEL</p><h2>Appearance</h2></div><span class="badge">Tickets v2</span></div>
-            <label>Panel title<input id="title" maxlength="256"></label>
-            <label>Description<textarea id="description" rows="6"></textarea></label>
-            <div class="two-col">
-              <label>Footer<input id="footer" maxlength="2048"></label>
-              <label>Embed color<div class="color-field"><input id="color" maxlength="7"><input id="colorPicker" type="color"></div></label>
-            </div>
-            <label class="toggle-row"><span><strong>Use ticket banner</strong><small>Uses ticket-support.png from the bot folder.</small></span><input id="imageEnabled" type="checkbox"></label>
+      <section id="ticketsView" class="grid">
+        <div class="editor-card">
+          <div class="section-title"><div><p class="eyebrow">PANEL</p><h2>Appearance</h2></div><span class="badge">Tickets v4</span></div>
+          <label>Panel title<input id="title" maxlength="256"></label>
+          <label>Description<textarea id="description" rows="7"></textarea></label>
+          <div class="two-col"><label>Footer<input id="footer" maxlength="2048"></label><label>Embed color<div class="color-field"><input id="color" maxlength="7"><input id="colorPicker" type="color"></div></label></div>
+          <label class="toggle-row"><span><strong>Use ticket banner</strong><small>Uses ticket-support.png from the bot folder.</small></span><input id="imageEnabled" type="checkbox"></label>
+
+          <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">TICKET TYPES</p><h2>Buttons & Categories</h2></div></div>
+          <div id="buttonsEditor" class="button-editor"></div>
+
+          <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">STAFF</p><h2>Roles & Logging</h2></div></div>
+          <label>Staff roles<select id="staffRoles" multiple size="6"></select><small class="field-help">Ctrl/Cmd + click to select multiple.</small></label>
+          <div class="two-col"><label>Staff ping role<select id="pingRole"></select></label><label>Transcript channel<select id="transcriptChannel"></select></label></div>
+          <label>Claim bypass / manager roles<select id="bypassRoles" multiple size="5"></select></label>
+          <label class="toggle-row"><span><strong>Ping staff when ticket opens</strong><small>Mentions the selected ping role.</small></span><input id="pingStaffOnCreate" type="checkbox"></label>
+
+          <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">CLAIMING</p><h2>Claim System</h2></div></div>
+          <div class="toggle-grid">
+            <label class="toggle-row"><span><strong>Enable claiming</strong></span><input id="claimEnabled" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Lock to claimer</strong></span><input id="lockToClaimer" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Allow unclaim</strong></span><input id="allowUnclaim" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Allow transfer</strong></span><input id="allowTransfer" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Show claimer</strong></span><input id="showClaimer" type="checkbox"></label>
+          </div>
+          <div class="two-col"><label>Claim button text<input id="claimLabel" maxlength="80"></label><label>Unclaim button text<input id="unclaimLabel" maxlength="80"></label></div>
+          <label>Transfer label<input id="transferLabel" maxlength="80"></label>
+
+          <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">OWNER PERMISSIONS</p><h2>What ticket creators can do</h2></div></div>
+          <div class="toggle-grid">
+            <label class="toggle-row"><span><strong>Add members</strong></span><input id="ownerAddMembers" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Remove members</strong></span><input id="ownerRemoveMembers" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Rename ticket</strong></span><input id="ownerRename" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Request close</strong></span><input id="ownerRequestClose" type="checkbox"></label>
+            <label class="toggle-row"><span><strong>Close directly</strong></span><input id="ownerCloseDirectly" type="checkbox"></label>
           </div>
 
-          <div class="editor-card">
-            <div class="section-title"><div><p class="eyebrow">TICKET TYPES</p><h2>Categories & Buttons</h2></div></div>
-            <p class="sub">Choose where each ticket type is created and how its panel button looks.</p>
-            <div id="ticketTypesEditor" class="ticket-types-editor"></div>
-          </div>
-
-          <div class="editor-card">
-            <div class="section-title"><div><p class="eyebrow">STAFF</p><h2>Roles & Transcripts</h2></div></div>
-            <label>Transcript channel<select id="transcriptChannel"></select></label>
-            <label>Role to ping when a ticket opens<select id="pingRole"></select></label>
-            <label class="toggle-row"><span><strong>Ping staff on new tickets</strong><small>Mentions the selected role when a ticket is created.</small></span><input id="pingStaffOnCreate" type="checkbox"></label>
-            <div class="field-block"><span class="field-label">Staff roles</span><small>These roles can see and manage tickets.</small><div id="staffRoleGrid" class="check-grid"></div></div>
-            <div class="field-block"><span class="field-label">Claim override roles</span><small>These roles can talk in claimed tickets and unclaim another staff member's ticket.</small><div id="bypassRoleGrid" class="check-grid"></div></div>
-          </div>
-
-          <div class="editor-card">
-            <div class="section-title"><div><p class="eyebrow">CLAIMING</p><h2>Claim System</h2></div><span class="badge green">Live</span></div>
-            <label class="toggle-row"><span><strong>Enable ticket claiming</strong><small>Shows Claim / Unclaim controls inside each ticket.</small></span><input id="claimEnabled" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Lock ticket to claimer</strong><small>Other normal staff cannot send messages after a ticket is claimed.</small></span><input id="lockToClaimer" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Allow unclaim</strong><small>The claimer or override staff can return the ticket to the queue.</small></span><input id="allowUnclaim" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Show claimed staff member</strong><small>Adds “Claimed By” to the ticket embed.</small></span><input id="showClaimer" type="checkbox"></label>
-            <div class="two-col"><label>Claim button text<input id="claimLabel" maxlength="80"></label><label>Unclaim button text<input id="unclaimLabel" maxlength="80"></label></div>
-          </div>
-
-          <div class="editor-card">
-            <div class="section-title"><div><p class="eyebrow">PERMISSIONS</p><h2>Ticket Owner Controls</h2></div></div>
-            <label class="toggle-row"><span><strong>Add members</strong><small>Ticket creator may use /ticket add.</small></span><input id="ownerAddMembers" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Remove members</strong><small>Ticket creator may use /ticket remove.</small></span><input id="ownerRemoveMembers" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Rename ticket</strong><small>Ticket creator may use /ticket rename.</small></span><input id="ownerRename" type="checkbox"></label>
-            <label class="toggle-row"><span><strong>Request close</strong><small>Ticket creator may use /close request.</small></span><input id="ownerRequestClose" type="checkbox"></label>
-            <label class="toggle-row danger-toggle"><span><strong>Allow owner to close instantly</strong><small>When off, users must request a close and staff approves it.</small></span><input id="ownerCloseDirectly" type="checkbox"></label>
-          </div>
-
-          <div class="editor-card publish-card">
-            <div class="section-title"><div><p class="eyebrow">PUBLISH</p><h2>Save & Send</h2></div></div>
-            <label>Send a new panel to<select id="channelSelect"></select></label>
-            <div class="actions"><button id="saveBtn" class="secondary">Save Ticket System</button><button id="sendBtn" class="primary">Send New Panel</button></div>
-            <p id="statusMessage" class="status-message"></p>
-          </div>
+          <div class="divider"></div>
+          <div class="section-title compact"><div><p class="eyebrow">PUBLISH</p><h2>Save & Send</h2></div></div>
+          <label>Panel channel<select id="channelSelect"></select></label>
+          <div class="actions"><button id="saveBtn" class="secondary">Save Ticket System</button><button id="sendBtn" class="primary">Send New Panel</button></div><p id="statusMessage" class="status-message"></p>
         </div>
 
-        <div class="preview-wrap"><div class="preview-sticky">
-          <p class="eyebrow">LIVE PREVIEW</p>
-          <div class="discord-preview">
-            <div class="discord-author"><div class="avatar">🌲</div><strong>CedarMC</strong><span>APP</span><small>Today</small></div>
-            <div class="embed" id="previewEmbed"><div id="previewTitle" class="embed-title"></div><div id="previewDescription" class="embed-description"></div><div id="previewImage" class="banner">CEDARMC SUPPORT</div><div id="previewFooter" class="embed-footer"></div></div>
-            <div id="previewButtons" class="discord-buttons"></div>
-          </div>
-          <div class="claim-preview"><strong>Inside a ticket</strong><div class="mini-buttons"><span class="mini success" id="claimPreviewLabel">🎫 Claim Ticket</span><span class="mini">Unclaim</span><span class="mini danger">Close Ticket</span></div><small>Claim controls update from the settings on the left.</small></div>
-          <div class="tip"><strong>Discord protected</strong><span>Only authorized CedarMC staff can access this editor.</span></div>
-        </div></div>
+        <div class="preview-wrap"><div class="preview-sticky"><p class="eyebrow">LIVE PREVIEW</p><div class="discord-preview"><div class="discord-author"><div class="avatar">🌲</div><strong>CedarMC</strong><span>APP</span><small>Today</small></div><div class="embed" id="previewEmbed"><div id="previewTitle" class="embed-title"></div><div id="previewDescription" class="embed-description"></div><div id="previewImage" class="banner">CEDARMC SUPPORT</div><div id="previewFooter" class="embed-footer"></div></div><div id="previewButtons" class="discord-buttons"></div></div><div class="tip"><strong>Tickets v4</strong><span>Active ticket management, claim transfers, role-based staff access, and audit logging are enabled.</span></div></div></div>
       </section>
 
-      <section id="auditView" class="hidden">
-        <div class="editor-card audit-card"><div class="section-title"><div><p class="eyebrow">SECURITY</p><h2>Audit Log</h2></div><button id="refreshAuditBtn" class="secondary">Refresh</button></div><p class="sub">Recent dashboard actions and who performed them.</p><div id="auditList" class="audit-list"></div></div>
+      <section id="activeView" class="hidden">
+        <div class="editor-card wide-card">
+          <div class="section-title"><div><p class="eyebrow">LIVE SUPPORT</p><h2>Active Tickets</h2></div><button id="refreshTicketsBtn" class="secondary">Refresh</button></div>
+          <div class="ticket-toolbar"><input id="ticketSearch" placeholder="Search ticket, owner, or staff…"><select id="ticketFilter"><option value="all">All tickets</option><option value="claimed">Claimed</option><option value="unclaimed">Unclaimed</option></select></div>
+          <div id="activeTicketsList" class="active-list"></div>
+          <p id="activeStatus" class="status-message"></p>
+        </div>
       </section>
+
+      <section id="auditView" class="hidden"><div class="editor-card audit-card"><div class="section-title"><div><p class="eyebrow">SECURITY</p><h2>Audit Log</h2></div><button id="refreshAuditBtn" class="secondary">Refresh</button></div><p class="sub">Recent dashboard actions and who performed them.</p><div id="auditList" class="audit-list"></div></div></section>
     </main>
   </div>
-  <script src="dashboard.js?v=3"></script>
+  <script src="dashboard.js?v=4"></script>
 </body>
 </html>
