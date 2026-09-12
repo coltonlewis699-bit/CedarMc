@@ -1,252 +1,189 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0d1f16" />
-  <title>CedarMC | Survival Reimagined</title>
-  <meta name="description" content="CedarMC is a polished survival Minecraft server with jobs, fishing, pets, cosmetics, teams, ranks, and more." />
-  <link rel="stylesheet" href="style.css?v=3" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CedarMC • Bot Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css?v=1">
 </head>
 <body>
-  <div class="noise"></div>
-
-  <header class="site-header">
-    <div class="shell nav-wrap">
-      <a class="brand" href="#top" aria-label="CedarMC home">
-        <span class="brand-mark">C</span>
-        <span>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="tree">▲</div>
+        <div>
           <strong>CedarMC</strong>
-          <small>CedarMc.org</small>
-        </span>
-      </a>
+          <span>Bot Dashboard</span>
+        </div>
+      </div>
 
-      <nav class="nav-links" aria-label="Main navigation">
-        <a href="#server">Server</a>
-        <a href="#features">Features</a>
-        <a href="#app">CedarMc APP</a>
-        <a href="#join">Join</a>
+      <nav>
+        <a class="nav-link active" href="#tickets"><span>🎫</span> Tickets</a>
+        <a class="nav-link disabled" href="#"><span>📋</span> Applications <b>Soon</b></a>
+        <a class="nav-link disabled" href="#"><span>🎭</span> Reaction Roles <b>Soon</b></a>
+        <a class="nav-link disabled" href="#"><span>🎉</span> Giveaways <b>Soon</b></a>
+        <a class="nav-link disabled" href="#"><span>💡</span> Suggestions <b>Soon</b></a>
+        <a class="nav-link disabled" href="#"><span>🚀</span> Boosts <b>Soon</b></a>
       </nav>
 
-      <a class="nav-button discord-link" href="#">Discord</a>
-    </div>
-  </header>
+      <div class="sidebar-foot">
+        <span class="dot"></span>
+        <span id="connectionLabel">Not connected</span>
+      </div>
+    </aside>
 
-  <main id="top">
-    <section class="hero shell" id="server">
-      <div class="hero-copy">
-        <div class="eyebrow">CEDARMC SURVIVAL</div>
-        <h1>Your next survival story starts here.</h1>
-        <p class="hero-text">
-          A feature-rich Minecraft survival server built around progression, community, custom systems,
-          and things worth working toward.
-        </p>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">CEDARMC APP</p>
+          <h1>Ticket Panel Editor</h1>
+          <p class="sub">Edit your support panel, preview it, save it, and send it to Discord.</p>
+        </div>
+        <button id="settingsBtn" class="ghost">⚙ Connection</button>
+      </header>
 
-        <div class="hero-actions">
-          <button class="button button-primary copy-ip" type="button" data-ip="CedarMc.org">
-            <span class="button-icon">⛏</span>
+      <section class="grid">
+        <div class="editor-card">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">PANEL</p>
+              <h2>Appearance</h2>
+            </div>
+            <span class="badge">Tickets v1</span>
+          </div>
+
+          <label>
+            Panel title
+            <input id="title" maxlength="256" value="CEDARMC SUPPORT">
+          </label>
+
+          <label>
+            Description
+            <textarea id="description" rows="7">**Need help?** Open a ticket below and our staff will be with you as soon as possible.
+
+Choose the option that best matches your request.
+
+**Tickets are private.** Only you, added members, and our staff can see your ticket.</textarea>
+          </label>
+
+          <div class="two-col">
+            <label>
+              Footer
+              <input id="footer" maxlength="2048" value="CedarMC Support">
+            </label>
+
+            <label>
+              Embed color
+              <div class="color-field">
+                <input id="color" value="#0B3D2E" maxlength="7">
+                <input id="colorPicker" type="color" value="#0B3D2E">
+              </div>
+            </label>
+          </div>
+
+          <label class="toggle-row">
             <span>
-              <small>SERVER ADDRESS</small>
-              <strong>CedarMc.org</strong>
+              <strong>Use ticket banner</strong>
+              <small>Uses ticket-support.png from the bot folder.</small>
             </span>
-          </button>
-          <a class="button button-secondary discord-link" href="#">Join Discord</a>
-        </div>
+            <input id="imageEnabled" type="checkbox" checked>
+          </label>
 
-        <div class="quick-points" aria-label="Server highlights">
-          <span>Java + Bedrock</span>
-          <span>Jobs & Fishing</span>
-          <span>Pets & Cosmetics</span>
-        </div>
-      </div>
+          <div class="divider"></div>
 
-      <div class="hero-visual">
-        <div class="server-showcase">
-          <div class="showcase-top">
-            <span class="showcase-kicker">CEDARMC NETWORK</span>
-            <span class="online-pill"><i class="status-dot"></i> ONLINE</span>
-          </div>
-
-          <div class="showcase-main">
-            <div class="cedar-emblem" aria-hidden="true">
-              <span class="tree-crown crown-one"></span>
-              <span class="tree-crown crown-two"></span>
-              <span class="tree-crown crown-three"></span>
-              <span class="tree-trunk"></span>
-            </div>
-
-            <div class="showcase-title">
-              <small>SURVIVAL REIMAGINED</small>
-              <strong>CedarMC</strong>
-              <span>Jobs • Pets • Fishing • Teams</span>
-            </div>
-          </div>
-
-          <div class="showcase-divider"></div>
-
-          <div class="showcase-info-grid">
+          <div class="section-title compact">
             <div>
-              <small>SERVER ADDRESS</small>
-              <strong>CedarMc.org</strong>
+              <p class="eyebrow">BUTTONS</p>
+              <h2>Ticket Types</h2>
             </div>
+          </div>
+
+          <div id="buttonsEditor" class="button-editor"></div>
+
+          <div class="divider"></div>
+
+          <div class="section-title compact">
             <div>
-              <small>PLATFORM</small>
-              <strong>Java + Bedrock</strong>
+              <p class="eyebrow">DISCORD</p>
+              <h2>Send Panel</h2>
             </div>
           </div>
 
-          <button class="showcase-copy copy-ip" type="button" data-ip="CedarMc.org">
-            <span>Copy server address</span>
-            <b>CedarMc.org</b>
-          </button>
+          <label>
+            Channel
+            <select id="channelSelect">
+              <option value="">Connect to load Discord channels</option>
+            </select>
+          </label>
 
-          <div class="showcase-footer">
-            <span class="status-dot"></span>
-            <span id="serverStatus">CedarMC Online</span>
+          <div class="actions">
+            <button id="saveBtn" class="secondary">Save Changes</button>
+            <button id="sendBtn" class="primary">Send New Panel</button>
+          </div>
+
+          <p id="statusMessage" class="status-message"></p>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="preview-sticky">
+            <p class="eyebrow">LIVE PREVIEW</p>
+            <div class="discord-preview">
+              <div class="discord-author">
+                <div class="avatar">🌲</div>
+                <strong>CedarMC</strong>
+                <span>APP</span>
+                <small>Today at 4:20 PM</small>
+              </div>
+
+              <div class="embed" id="previewEmbed">
+                <div id="previewTitle" class="embed-title">CEDARMC SUPPORT</div>
+                <div id="previewDescription" class="embed-description"></div>
+                <div id="previewImage" class="banner">CEDARMC SUPPORT</div>
+                <div id="previewFooter" class="embed-footer">CedarMC Support</div>
+              </div>
+
+              <div id="previewButtons" class="discord-buttons"></div>
+            </div>
+
+            <div class="tip">
+              <strong>Safe test version</strong>
+              <span>Your bot token is never placed in the website. The dashboard connects to the private bot API using a key you enter.</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
+  </div>
 
-    <section class="stats shell" aria-label="CedarMC quick stats">
-      <article>
-        <strong>24/7</strong>
-        <span>Always ready to play</span>
-      </article>
-      <article>
-        <strong>Crossplay</strong>
-        <span>Java and Bedrock support</span>
-      </article>
-      <article>
-        <strong>Custom</strong>
-        <span>Systems built for CedarMC</span>
-      </article>
-      <article>
-        <strong>Community</strong>
-        <span>Built around players</span>
-      </article>
-    </section>
-
-    <section class="section shell" id="features">
-      <div class="section-heading">
+  <dialog id="settingsDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-head">
         <div>
-          <span class="eyebrow">SERVER FEATURES</span>
-          <h2>More than plain survival.</h2>
+          <p class="eyebrow">CONNECTION</p>
+          <h2>Bot API</h2>
         </div>
-        <p>
-          CedarMC keeps the core survival experience familiar while adding progression systems, rewards,
-          cosmetics, teams, fishing, and quality-of-life features.
-        </p>
+        <button class="icon-btn" value="cancel">✕</button>
       </div>
 
-      <div class="feature-grid">
-        <article class="feature-card feature-card-large">
-          <span class="feature-icon">🎣</span>
-          <div>
-            <small>PROGRESSION</small>
-            <h3>Jobs & Custom Fishing</h3>
-            <p>Choose a job, level it up, catch better fish, and sell what you earn through custom markets.</p>
-          </div>
-        </article>
+      <label>
+        API URL
+        <input id="apiUrl" placeholder="https://api.cedarmc.org">
+      </label>
 
-        <article class="feature-card">
-          <span class="feature-icon">🐾</span>
-          <div>
-            <small>COSMETICS</small>
-            <h3>Pets</h3>
-            <p>Unlock collectible pets that follow you around without getting in the way of building.</p>
-          </div>
-        </article>
+      <label>
+        Dashboard key
+        <input id="dashboardKey" type="password" placeholder="Enter your private dashboard key">
+      </label>
 
-        <article class="feature-card">
-          <span class="feature-icon">⚔</span>
-          <div>
-            <small>SOCIAL</small>
-            <h3>Teams</h3>
-            <p>Create a team, play together, share progression, and build your name across the server.</p>
-          </div>
-        </article>
+      <p class="help">The key is kept in this browser session only. Do not put it inside GitHub files.</p>
 
-        <article class="feature-card">
-          <span class="feature-icon">✦</span>
-          <div>
-            <small>REWARDS</small>
-            <h3>Ranks & Kits</h3>
-            <p>Unlock rank perks, kit access, cosmetics, and benefits designed to make progression feel worthwhile.</p>
-          </div>
-        </article>
-
-        <article class="feature-card feature-card-wide">
-          <span class="feature-icon">🌲</span>
-          <div>
-            <small>AND MORE</small>
-            <h3>Built around the full survival experience</h3>
-            <p>Player shops, custom RTP, crates, events, leaderboards, voice chat, and ongoing updates keep things moving.</p>
-          </div>
-        </article>
+      <div class="actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="connectBtn" value="cancel" class="primary">Connect</button>
       </div>
-    </section>
+    </form>
+  </dialog>
 
-    <section class="section shell app-section" id="app">
-      <div class="app-copy">
-        <span class="eyebrow">CEDARMC APP</span>
-        <h2>One bot for the whole community.</h2>
-        <p>
-          CedarMc APP handles support tickets, applications, giveaways, reaction roles, suggestions,
-          server status, and more inside Discord.
-        </p>
-
-        <div class="tag-list">
-          <span>Tickets</span>
-          <span>Applications</span>
-          <span>Giveaways</span>
-          <span>Reaction Roles</span>
-          <span>Suggestions</span>
-          <span>Status</span>
-        </div>
-
-        <a class="button button-primary compact discord-link" href="#">Open Discord</a>
-      </div>
-
-      <div class="app-visual">
-        <div class="ticket-frame">
-          <img src="ticket-support.png" alt="CedarMC support ticket panel" />
-        </div>
-        <div class="app-badge">CEDARMC APP</div>
-      </div>
-    </section>
-
-    <section class="join-section" id="join">
-      <div class="shell join-card">
-        <div>
-          <span class="eyebrow">READY TO PLAY?</span>
-          <h2>Join CedarMC today.</h2>
-          <p>Use the server address below in Minecraft and start your survival journey.</p>
-        </div>
-
-        <button class="join-ip copy-ip" type="button" data-ip="CedarMc.org">
-          <span>
-            <small>MINECRAFT SERVER</small>
-            <strong>CedarMc.org</strong>
-          </span>
-          <b>Copy IP</b>
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-wrap">
-      <div>
-        <strong>CedarMC</strong>
-        <span>Survival • Pets • Jobs • Teams</span>
-      </div>
-      <p>Not affiliated with Mojang or Microsoft.</p>
-    </div>
-  </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite">Copied CedarMc.org</div>
-
-  <script src="script.js?v=3"></script>
+  <script src="dashboard.js?v=1"></script>
 </body>
 </html>
