@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0d1f16" />
   <title>CedarMC | Survival Reimagined</title>
   <meta name="description" content="CedarMC is a polished survival Minecraft server with jobs, fishing, pets, cosmetics, teams, ranks, and more." />
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
   <div class="noise"></div>
@@ -61,24 +61,49 @@
       </div>
 
       <div class="hero-visual">
-        <div class="image-frame">
-          <img src="cedarmc-welcome.png" alt="CedarMC welcome artwork" />
-        </div>
-
-        <div class="float-card float-card-top">
-          <span class="status-dot"></span>
-          <div>
-            <small>SERVER STATUS</small>
-            <strong id="serverStatus">CedarMC Online</strong>
+        <div class="server-showcase">
+          <div class="showcase-top">
+            <span class="showcase-kicker">CEDARMC NETWORK</span>
+            <span class="online-pill"><i class="status-dot"></i> ONLINE</span>
           </div>
-        </div>
 
-        <div class="float-card float-card-bottom">
-          <div>
-            <small>JOIN NOW</small>
-            <strong>CedarMc.org</strong>
+          <div class="showcase-main">
+            <div class="cedar-emblem" aria-hidden="true">
+              <span class="tree-crown crown-one"></span>
+              <span class="tree-crown crown-two"></span>
+              <span class="tree-crown crown-three"></span>
+              <span class="tree-trunk"></span>
+            </div>
+
+            <div class="showcase-title">
+              <small>SURVIVAL REIMAGINED</small>
+              <strong>CedarMC</strong>
+              <span>Jobs • Pets • Fishing • Teams</span>
+            </div>
           </div>
-          <button class="mini-copy copy-ip" type="button" data-ip="CedarMc.org">Copy</button>
+
+          <div class="showcase-divider"></div>
+
+          <div class="showcase-info-grid">
+            <div>
+              <small>SERVER ADDRESS</small>
+              <strong>CedarMc.org</strong>
+            </div>
+            <div>
+              <small>PLATFORM</small>
+              <strong>Java + Bedrock</strong>
+            </div>
+          </div>
+
+          <button class="showcase-copy copy-ip" type="button" data-ip="CedarMc.org">
+            <span>Copy server address</span>
+            <b>CedarMc.org</b>
+          </button>
+
+          <div class="showcase-footer">
+            <span class="status-dot"></span>
+            <span id="serverStatus">CedarMC Online</span>
+          </div>
         </div>
       </div>
     </section>
@@ -222,6 +247,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite">Copied CedarMc.org</div>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>

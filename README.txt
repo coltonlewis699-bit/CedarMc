@@ -1,32 +1,16 @@
-CEDARMC WEBSITE - UPDATED
+CEDARMC WEBSITE - NO HERO LOGO VERSION
 
-Files to upload to the root of your GitHub Pages repository:
+Replace these files in the root of your GitHub Pages repository:
 - index.html
 - style.css
 - script.js
-- cedarmc-welcome.png
+
+Keep:
 - ticket-support.png
+- CNAME
 
-IMPORTANT:
-The HTML now expects these image files in the SAME root folder as index.html:
-- cedarmc-welcome.png
-- ticket-support.png
+You can delete cedarmc-welcome.png if you no longer use it anywhere else.
 
-This fixes the old broken image path issue where the website looked inside an /assets/ folder that did not exist.
+This version removes the large CedarMC welcome image from the hero and replaces it with a custom HTML/CSS server panel. No logo image is required.
 
-DISCORD LINK:
-Open script.js and replace:
-  discordUrl: '#',
-with your real invite, for example:
-  discordUrl: 'https://discord.gg/yourinvite',
-
-LIVE STATUS:
-The site is ready to use a status API later. Replace:
-  statusApi: ''
-with your API endpoint when one is available.
-
-SERVER ADDRESS:
-The Copy IP buttons use:
-  CedarMc.org
-
-GitHub Pages may take a minute or two to show a new commit after upload.
+The stylesheet and script use ?v=3 cache-busting so browsers pull the updated files.
