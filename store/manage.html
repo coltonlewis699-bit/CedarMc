@@ -1,45 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CedarMC | Store Management</title>
-  <link rel="stylesheet" href="store.css?v=6">
-</head>
-<body>
-  <header class="store-header">
-    <div class="shell store-nav">
-      <a class="store-brand" href="/"><strong>CedarMC</strong><small>Store Management</small></a>
-      <div class="nav-actions">
-        <a class="account-btn" href="/store/">Back to Store</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="shell store-main">
-    <section id="statusCard" class="manager-card">
-      <h2>Checking your CedarMC account...</h2>
-      <p>Store Management uses the same account session as the main store.</p>
-    </section>
-
-    <section id="editor" class="hidden">
-      <div class="manager-card">
-        <div class="manager-title">
-          <div><small>CEDARMC STORE</small><h1>Products</h1></div>
-          <div><button id="add" class="account-btn">Add Product</button>
-          <button id="save" class="account-btn">Save Products</button></div>
-        </div>
-        <div id="rows"></div>
-      </div>
-      <section id="usersSection" class="manager-card hidden">
-        <h2>Users & Permissions</h2>
-        <p>New accounts start as Customer. Owners can grant website store access here.</p>
-        <input id="userSearch" placeholder="Search email or Minecraft username">
-        <div id="usersBox"></div>
-      </section>
-    </section>
-  </main>
-  <div class="toast" id="toast"></div>
-  <script src="manage.js?v=6"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CedarMC | Store Management</title><link rel="stylesheet" href="store.css?v=40"></head>
+<body class="manage-page"><div class="m-shell">
+<aside class="m-side"><div class="m-logo">CEDAR<span>MC</span></div><div class="m-sub">STORE MANAGEMENT</div>
+<nav class="m-nav"><button class="active" data-view="products">▣ &nbsp; Products</button><button data-view="users">♙ &nbsp; Users & Permissions</button><button disabled>▤ &nbsp; Orders — Coming Soon</button><button disabled>⚙ &nbsp; Settings — Coming Soon</button><button disabled>☷ &nbsp; Logs — Coming Soon</button></nav>
+<div class="m-status"><div>SERVER STATUS</div><div class="m-online">● Online</div><div style="margin-top:7px">CedarMc.org</div></div></aside>
+<main class="m-main"><header class="m-top"><div class="m-user"><div class="m-avatar">⛏</div><div><small>Welcome back,</small><br><strong id="who">CedarMC Staff</strong> <span id="role" class="m-owner"></span></div></div><a class="m-btn" href="/store/">↗ View Store</a></header>
+<div class="m-content"><section id="loading"><h2>Checking your CedarMC account...</h2></section>
+<section id="productsView" class="hidden"><div class="m-heading"><div><h1>▣ Products</h1><p>Manage your store products, pricing, images, and display settings.</p></div><button id="addProduct" class="m-btn primary">＋ Add Product</button></div>
+<div class="m-tools"><input id="search" placeholder="⌕  Search products..."><select id="categoryFilter"><option value="">All Categories</option><option>ranks</option><option>shards</option><option>cosmetics</option><option>keys</option><option>pets</option></select><select id="statusFilter"><option value="">All Statuses</option><option value="live">Live</option><option value="draft">Draft</option></select></div>
+<div id="productGrid" class="m-grid"></div><div id="stats" class="m-stats"></div></section>
+<section id="usersView" class="hidden"><div class="m-heading"><div><h1>Users & Permissions</h1><p>Manage CedarMC website store access.</p></div></div><div id="usersBox" class="m-users"></div></section>
+</div></main></div>
+<div id="modalBack" class="m-modalback hidden"><div class="m-modal"><div class="m-modalhead"><h2 id="modalTitle">Add / Edit Product</h2><button id="closeModal" class="m-close">×</button></div>
+<div class="m-form"><div>
+<div class="m-field"><label>Product Name</label><input id="fName"></div>
+<div class="m-field"><label>Description</label><textarea id="fDescription"></textarea></div>
+<div class="m-field"><label>Price (USD)</label><input id="fPrice" type="number" min="0" step=".01"></div>
+<div class="m-field"><label>Category</label><select id="fCategory"><option>ranks</option><option>shards</option><option>cosmetics</option><option>keys</option><option>pets</option></select></div>
+<div class="m-field"><label>Status</label><select id="fStatus"><option value="live">Live</option><option value="draft">Draft</option></select></div>
+<div class="m-field"><label>Position (Order)</label><input id="fSort" type="number"></div>
+<div class="m-field"><label>Badge</label><input id="fBadge" placeholder="BEST VALUE, POPULAR, NEW..."></div>
+</div><div><div class="m-field"><label>Product Image</label><div class="m-upload"><img id="imagePreview" class="m-preview" alt=""><input id="fImage" type="file" accept="image/png,image/jpeg,image/webp"><small>PNG/JPG/WebP • max 1.5 MB</small></div></div>
+<div class="m-field"><label>Icon / fallback</label><input id="fIcon" placeholder="✦"></div><div class="m-field"><label>Store Preview</label><div id="storePreview" class="m-card"></div></div></div></div>
+<div class="m-footer"><button id="cancelModal" class="m-btn">Cancel</button><button id="saveProduct" class="m-btn primary">Save Product</button></div></div></div>
+<div id="toast" class="toast"></div><script src="manage.js?v=40"></script></body></html>
