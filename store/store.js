@@ -5,7 +5,7 @@ async function loadProducts(){try{products=await api('/api/store/products');rend
 function renderProducts(cat='all'){const list=products.filter(p=>cat==='all'||p.category===cat);$('#products').innerHTML=list.map(p=>`<article class="product"><span class="badge">${esc(p.badge)}</span><div class="icon">${esc(p.icon)}</div><h3>${esc(p.name)}</h3><p>${esc(p.description)}</p><div class="buyrow"><span class="price">${money(p.price)}</span><button class="add" data-id="${esc(p.id)}">Add to Cart</button></div></article>`).join('');document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id))}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function add(id){cart.push(id);save();renderCart();toast('Added to cart')}function save(){localStorage.setItem('cedarmc-cart',JSON.stringify(cart));$('#cartCount').textContent=cart.length}function renderCart(){save();let total=0;$('#cartItems').innerHTML=cart.length?cart.map((id,i)=>{const p=products.find(x=>x.id===id);if(!p)return'';total+=Number(p.price);return`<div class="cart-item"><div><b>${esc(p.name)}</b><small>${money(p.price)}</small></div><button class="remove" data-i="${i}">Remove</button></div>`}).join(''):'<div class="empty">Your cart is empty.</div>';$('#total').textContent=money(total);document.querySelectorAll('.remove').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.i,1);renderCart()})}
-async function loadMe(){try{const d=await api('/api/store/me');account=d.account;showAccount(d)}catch{account=null;showAccount(null)}}function showAccount(d){const a=d?.account||d;if(a){const canManage=['editor','manager','owner'].includes(String(a.role||'customer').toLowerCase());const manageBtn=$('#manageBtn');if(manageBtn)manageBtn.classList.toggle('hidden',!canManage);$('#accountSummary').innerHTML=`<b>${esc(a.minecraftUsername)}</b><small>Signed in as ${esc(a.email)}</small><button id="heroProfile" class="account-btn">View Account</button>`;$('#heroProfile').onclick=openAccount;$('#accountBtn').textContent=a.minecraftUsername||'Account';$('#authView').classList.add('hidden');$('#profileView').classList.remove('hidden');$('#profileEmail').textContent=a.email;$('#profileMcName').value=a.minecraftUsername||'';$('#profileEdition').value=a.edition||'java';$('#showPurchases').checked=a.showPurchases!==false;if(d?.purchases)$('#purchaseHistory').innerHTML=d.purchases.length?d.purchases.map(p=>`<div>${esc(p.productName)} — ${new Date(p.createdAt).toLocaleString()}</div>`).join(''):'No purchases yet.'}else{const manageBtn=$('#manageBtn');if(manageBtn)manageBtn.classList.add('hidden');$('#accountBtn').textContent='Account';$('#authView').classList.remove('hidden');$('#profileView').classList.add('hidden')}}
+async function loadMe(){try{const d=await api('/api/store/me');account=d.account;showAccount(d)}catch{account=null;showAccount(null)}}function showAccount(d){const a=d?.account||d;if(a){$('#accountSummary').innerHTML=`<b>${esc(a.minecraftUsername)}</b><small>Signed in as ${esc(a.email)}</small><button id="heroProfile" class="account-btn">View Account</button>`;$('#heroProfile').onclick=openAccount;$('#accountBtn').textContent=a.minecraftUsername||'Account';$('#authView').classList.add('hidden');$('#profileView').classList.remove('hidden');$('#profileEmail').textContent=a.email;$('#profileMcName').value=a.minecraftUsername||'';$('#profileEdition').value=a.edition||'java';$('#showPurchases').checked=a.showPurchases!==false;if(d?.purchases)$('#purchaseHistory').innerHTML=d.purchases.length?d.purchases.map(p=>`<div>${esc(p.productName)} — ${new Date(p.createdAt).toLocaleString()}</div>`).join(''):'No purchases yet.'}else{$('#accountBtn').textContent='Account';$('#authView').classList.remove('hidden');$('#profileView').classList.add('hidden')}}
 async function loadRecent(){try{const x=await api('/api/store/recent');$('#recentPurchases').innerHTML=x.length?x.map(p=>`<div class="purchase-card"><img src="${esc(p.playerHead)}" alt=""><div><b>${esc(p.minecraftUsername)}</b><small>${esc(p.productName)}</small><small>${ago(p.createdAt)}</small></div></div>`).join(''):'<span class="account-note">No public purchases yet.</span>'}catch{}}
 function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<60)return'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
 function openAccount(){$('#accountModal').classList.add('open')}function closeAccount(){$('#accountModal').classList.remove('open')}
@@ -15,3 +15,31 @@ $('#loginBtn').onclick=async()=>{try{await api('/api/store/login',{method:'POST'
 $('#saveProfile').onclick=async()=>{try{await api('/api/store/profile',{method:'POST',body:JSON.stringify({minecraftUsername:$('#profileMcName').value,edition:$('#profileEdition').value,showPurchases:$('#showPurchases').checked})});await loadMe();toast('Profile saved')}catch(e){toast(e.message)}};
 $('#logoutBtn').onclick=async()=>{await api('/api/store/logout',{method:'POST'});account=null;showAccount(null);closeAccount();toast('Logged out')};
 $('#tabs').onclick=e=>{if(!e.target.dataset.cat)return;document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('selected'));e.target.classList.add('selected');renderProducts(e.target.dataset.cat)};$('#cartBtn').onclick=()=>{$('#cart').classList.add('open');$('#shade').classList.add('open')};$('#closeCart').onclick=$('#shade').onclick=()=>{$('#cart').classList.remove('open');$('#shade').classList.remove('open')};$('#checkout').onclick=()=>{if(!account){openAccount();toast('Login before checkout');return}if(!cart.length)return toast('Your cart is empty');toast('Payments are coming in the next stage')};loadProducts().then(renderCart);loadMe();loadRecent();
+
+function syncManagementLink(){
+  let link=document.querySelector('#storeManageLink');
+  const allowed=account&&['editor','manager','owner'].includes(String(account.role||'').toLowerCase());
+  if(!link){
+    link=document.createElement('a'); link.id='storeManageLink'; link.href='/store/manage.html';
+    link.className='account-btn'; link.textContent='Store Management'; link.style.marginLeft='8px';
+    const host=document.querySelector('.nav-actions')||document.querySelector('header .shell')||document.querySelector('header');
+    if(host)host.appendChild(link);
+  }
+  link.style.display=allowed?'inline-flex':'none';
+}
+const _oldLoadMe=loadMe;
+loadMe=async function(){const r=await _oldLoadMe();syncManagementLink();return r;};
+setTimeout(syncManagementLink,0);
+
+// If Store Management sent the user here because the session expired,
+// reopen management after the normal CedarMC login succeeds.
+const cedarReturnManage = new URLSearchParams(location.search).get('return') === 'manage';
+if (cedarReturnManage) {
+  const cedarWatchLogin = setInterval(async () => {
+    try {
+      const r = await fetch('https://api.cedarmc.org/api/store/me',{credentials:'include'});
+      if (r.ok) { clearInterval(cedarWatchLogin); location.href='/store/manage.html'; }
+    } catch {}
+  }, 1000);
+  setTimeout(()=>clearInterval(cedarWatchLogin),120000);
+}

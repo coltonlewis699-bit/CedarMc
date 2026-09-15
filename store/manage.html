@@ -1,1 +1,45 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CedarMC Store Management</title><link rel="stylesheet" href="store.css?v=3"><style>.editor{padding:40px 0 80px}.panel{background:#0d1c14;border:1px solid #1d3a2a;border-radius:16px;padding:20px;margin:18px 0}.editrow{background:#09150f;border:1px solid #1d3a2a;border-radius:14px;padding:14px;margin:12px 0;display:grid;grid-template-columns:1.2fr .65fr .65fr 2fr auto;gap:10px;align-items:center}.editrow input,.editrow select,.staff-search input,.staffrow select{background:#07110c;color:#fff;border:1px solid #28513b;border-radius:8px;padding:10px}.toolbar,.staff-search{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}.staffrow{display:grid;grid-template-columns:1fr 1fr .7fr auto;gap:12px;align-items:center;padding:14px;border-top:1px solid #1d3a2a}.muted{opacity:.7;font-size:.9rem}.role{font-weight:700;text-transform:capitalize}.danger-note{padding:12px;border:1px solid #28513b;border-radius:10px;margin-top:12px}.hidden{display:none!important}@media(max-width:850px){.editrow,.staffrow{grid-template-columns:1fr}}</style></head><body><header class="topbar"><div class="shell nav"><a class="brand" href="./"><span class="mark">C</span><span><b>CedarMC</b><small>Store Management</small></span></a><nav><a href="./">Store</a><a href="../dashboard/">Staff Dashboard</a></nav></div></header><main class="shell editor"><span class="eyebrow">CEDARMC WEBSITE</span><h1>Store Management</h1><p>Use your CedarMC website account. Discord permissions are separate.</p><div id="loginBox" class="panel"><h2>Website Login</h2><div class="staff-search"><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="login" class="account-btn">Login</button></div><small id="loginMsg" class="account-note"></small></div><div id="manager" class="hidden"><div class="panel"><b id="who"></b><div class="toolbar"><button id="productsTab" class="account-btn">Products</button><button id="usersTab" class="account-btn hidden">Users & Permissions</button><button id="logout" class="account-btn">Logout</button></div></div><section id="productsPanel" class="panel"><h2>Products</h2><div class="toolbar"><button id="add" class="account-btn">+ Add Product</button><button id="save" class="account-btn">Save Store</button></div><div id="rows"></div></section><section id="usersPanel" class="panel hidden"><h2>Users & Permissions</h2><p class="muted">Only Owners can change website roles. New registrations start as Customer.</p><div class="staff-search"><input id="userSearch" placeholder="Search email or Minecraft username"><button id="searchUsers" class="account-btn">Search</button></div><div id="users"></div></section></div><div id="toast" class="toast"></div></main><script src="manage.js?v=3"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CedarMC | Store Management</title>
+  <link rel="stylesheet" href="store.css?v=6">
+</head>
+<body>
+  <header class="store-header">
+    <div class="shell store-nav">
+      <a class="store-brand" href="/"><strong>CedarMC</strong><small>Store Management</small></a>
+      <div class="nav-actions">
+        <a class="account-btn" href="/store/">Back to Store</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell store-main">
+    <section id="statusCard" class="manager-card">
+      <h2>Checking your CedarMC account...</h2>
+      <p>Store Management uses the same account session as the main store.</p>
+    </section>
+
+    <section id="editor" class="hidden">
+      <div class="manager-card">
+        <div class="manager-title">
+          <div><small>CEDARMC STORE</small><h1>Products</h1></div>
+          <div><button id="add" class="account-btn">Add Product</button>
+          <button id="save" class="account-btn">Save Products</button></div>
+        </div>
+        <div id="rows"></div>
+      </div>
+      <section id="usersSection" class="manager-card hidden">
+        <h2>Users & Permissions</h2>
+        <p>New accounts start as Customer. Owners can grant website store access here.</p>
+        <input id="userSearch" placeholder="Search email or Minecraft username">
+        <div id="usersBox"></div>
+      </section>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script src="manage.js?v=6"></script>
+</body>
+</html>
