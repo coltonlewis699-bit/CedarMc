@@ -1,1 +1,22 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07110c">
+  <title>CedarMC Store</title>
+  <meta name="description" content="Official CedarMC store for ranks, shards, cosmetics, pets and keys.">
+  <link rel="stylesheet" href="store.css?v=1">
+</head>
+<body>
+<header class="topbar"><div class="shell nav"><a class="brand" href="../"><span class="mark">C</span><span><b>CedarMC</b><small>Official Store</small></span></a><nav><a href="../">Home</a><a class="active" href="./">Store</a><a href="https://discord.gg/8ebXDXQYe">Discord</a></nav><button id="cartBtn" class="cart-btn">Cart <span id="cartCount">0</span></button></div></header>
+<main>
+<section class="hero shell"><div><span class="eyebrow">CEDARMC STORE</span><h1>Support the server.<br><em>Stand out in-game.</em></h1><p>Ranks, shards, cosmetics and more — built directly into CedarMC.</p><div class="userbox"><label for="username">Minecraft Username</label><div class="userrow"><input id="username" autocomplete="off" maxlength="32" placeholder="Enter your username"><select id="edition" aria-label="Minecraft edition"><option value="java">Java</option><option value="bedrock">Bedrock</option></select></div><small>Bedrock players: enter your Floodgate username exactly as it appears in-game.</small></div></div><aside class="hero-card"><span>SERVER</span><strong>CedarMc.org</strong><p>Java + Bedrock</p><div class="online"><i></i> CEDARMC STORE ONLINE</div></aside></section>
+<section class="shell shop"><div class="shop-head"><div><span class="eyebrow">SHOP</span><h2>Choose your upgrade.</h2></div><div class="tabs" id="tabs"><button class="selected" data-cat="all">All</button><button data-cat="ranks">Ranks</button><button data-cat="shards">Shards</button><button data-cat="cosmetics">Cosmetics</button><button data-cat="keys">Keys</button></div></div><div class="grid" id="products"></div></section>
+<section class="shell note"><strong>Secure checkout is coming next.</strong><span>This first version builds the CedarMC storefront and cart. Payments are intentionally not live yet.</span></section>
+</main>
+<footer><div class="shell foot"><span>© 2026 CedarMC</span><span>Not affiliated with Mojang or Microsoft.</span></div></footer>
+<div id="shade" class="shade"></div><aside id="cart" class="drawer"><div class="drawer-head"><div><span>YOUR CART</span><h2>CedarMC Checkout</h2></div><button id="closeCart" aria-label="Close cart">×</button></div><div id="cartItems" class="cart-items"></div><div class="summary"><div><span>Total</span><strong id="total">$0.00</strong></div><button id="checkout" class="checkout">Continue to Checkout</button><small id="checkoutNote">Payments are not enabled in Store v1.</small></div></aside>
+<div id="toast" class="toast"></div>
+<script src="store.js?v=1"></script>
+</body></html>
