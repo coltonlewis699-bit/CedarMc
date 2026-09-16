@@ -92,3 +92,15 @@ linear-gradient(rgba(10,30,23,.62),rgba(3,14,11,.92))}
   background:rgba(3,31,22,.94) !important;
   backdrop-filter:none !important;
 }
+
+/* CedarMC v4.5 exact live-file sidebar fix */
+.m-side{position:sticky;top:0;height:100vh;min-height:680px;display:flex;flex-direction:column;overflow:hidden;padding:14px 15px 12px;background:linear-gradient(180deg,rgba(2,18,13,.22),rgba(2,18,13,.42) 42%,rgba(1,12,9,.50)),url("assets/cedarmc-forest-banner.jpg") 34% center/auto 100% no-repeat !important}
+.m-side::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,18,12,.10) 55%,rgba(0,0,0,.18)) !important}
+.m-side>*{position:relative;z-index:1}
+.m-brand{flex:0 0 auto;margin:0 0 10px;min-height:0;text-align:center}
+.m-brand img{display:block;width:100%;height:auto !important;max-height:145px !important;object-fit:contain !important;object-position:center !important;border-radius:8px;mix-blend-mode:normal !important}
+.m-nav{flex:0 0 auto}.m-nav button{min-height:42px;margin:3px 0;padding:10px 12px;background:rgba(2,22,15,.48) !important;backdrop-filter:blur(2px) !important}
+.m-nav button.active{background:rgba(4,59,39,.82) !important;border:1px solid rgba(42,246,143,.68) !important;border-left:4px solid #2cff91 !important}
+.m-side-bottom{margin-top:auto;gap:8px;padding-top:10px}.m-status{padding:11px 12px;background:rgba(2,31,21,.82) !important;backdrop-filter:blur(3px) !important}
+.m-slogan{padding:4px 10px 0;font-size:17px}.m-slogan b{margin-top:7px}.m-version{padding:0 5px 1px}
+@media(max-height:760px){.m-side{padding-top:10px}.m-brand img{max-height:108px !important}.m-nav button{min-height:36px;padding:7px 10px;margin:2px 0}.m-status{padding:9px 10px}.m-slogan{font-size:14px;display:block}.m-version{font-size:9px}}
