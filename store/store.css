@@ -64,3 +64,24 @@ linear-gradient(rgba(10,30,23,.62),rgba(3,14,11,.92))}
 .m-slogan{padding:7px 13px 2px;color:#fff;font-family:"Segoe Script","Bradley Hand",cursive;font-size:19px;line-height:1.02;transform:rotate(-3deg);text-shadow:0 2px 5px #000,0 0 10px rgba(0,0,0,.75)}.m-slogan span{display:block}.m-slogan b{display:block;margin-top:10px;color:#39f292;font:800 9px/1.2 Inter,system-ui,sans-serif;letter-spacing:5px;transform:rotate(3deg)}
 .m-version{font-size:10px;color:#8aa99d;padding:0 7px}.m-top{height:82px}.m-content{padding-top:27px}
 @media(max-height:760px){.m-brand img{height:98px}.m-nav button{min-height:38px;padding:8px 11px;margin:2px 0}.m-slogan{display:none}.m-side-bottom{gap:7px}}
+
+/* ===== CedarMC v4.3 approved forest sidebar ===== */
+.m-side{
+  background:
+    linear-gradient(180deg,rgba(0,15,10,.10) 0%,rgba(0,18,12,.18) 42%,rgba(0,10,7,.12) 100%),
+    url("assets/cedarmc-sidebar-forest.jpg") center top/cover no-repeat !important;
+}
+.m-side::after{
+  background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,15,10,.06) 45%,rgba(0,0,0,.10)) !important;
+}
+.m-nav button{
+  background:rgba(2,22,15,.28);
+  backdrop-filter:blur(2px);
+}
+.m-nav button.active{
+  background:rgba(4,61,39,.76);
+  border:1px solid rgba(42,246,143,.72);
+  border-left:4px solid #2cff91;
+  box-shadow:0 0 18px rgba(33,245,135,.10),inset 0 0 18px rgba(33,245,135,.06);
+}
+.m-status{background:rgba(2,31,21,.82)}
