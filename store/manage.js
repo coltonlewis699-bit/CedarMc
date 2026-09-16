@@ -1,4 +1,4 @@
-const API='https://api.cedarmc.org',$=s=>document.querySelector(s);let products=[],users=[],me=null,editing=-1,imageData='';
+const API='https://api.cedarmc.org',$=s=>document.querySelector(s);let products=[],users=[],orders=[],me=null,editing=-1,imageData='';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(p,o={}){const r=await fetch(API+p,{credentials:'include',headers:{'Content-Type':'application/json'},...o});let d={};try{d=await r.json()}catch{}if(!r.ok){let e=new Error(d.error||'Request failed');e.status=r.status;throw e}return d}
 function toast(t){let x=$('#toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2200)}
@@ -12,5 +12,54 @@ $('#fImage').onchange=e=>{let f=e.target.files[0];if(!f)return;if(f.size>1572864
 $('#saveProduct').onclick=async()=>{let p={id:editing>=0?products[editing].id:'product-'+Date.now(),name:$('#fName').value.trim(),description:$('#fDescription').value.trim(),price:+$('#fPrice').value||0,category:$('#fCategory').value,enabled:$('#fStatus').value==='live',sort:+$('#fSort').value||0,badge:$('#fBadge').value.trim(),icon:$('#fIcon').value.trim()||'✦',image:imageData};if(!p.name)return toast('Product name is required');if(editing>=0)products[editing]=p;else products.push(p);await saveAll();closeModal()}
 function closeModal(){$('#modalBack').classList.add('hidden');$('#fImage').value=''}$('#closeModal').onclick=$('#cancelModal').onclick=closeModal;$('#addProduct').onclick=()=>openModal(-1);$('#search').oninput=$('#categoryFilter').onchange=$('#statusFilter').onchange=render;
 async function loadUsers(){try{users=await api('/api/store/admin/users');$('#usersBox').innerHTML=users.map(u=>`<div class="m-userrow"><div><strong>${esc(u.minecraftUsername||'No Minecraft name')}</strong><br><small>${esc(u.email)}</small></div><select class="m-btn roleSel" data-id="${esc(u.id)}"><option value="customer" ${u.role==='customer'?'selected':''}>Customer</option><option value="editor" ${u.role==='editor'?'selected':''}>Editor</option><option value="manager" ${u.role==='manager'?'selected':''}>Manager</option><option value="owner" ${u.role==='owner'?'selected':''}>Owner</option></select><button class="m-btn saveRole" data-id="${esc(u.id)}">Save</button></div>`).join('');document.querySelectorAll('.saveRole').forEach(b=>b.onclick=async()=>{let s=document.querySelector(`.roleSel[data-id="${b.dataset.id}"]`);await api('/api/store/admin/users/role',{method:'POST',body:JSON.stringify({accountId:b.dataset.id,role:s.value})});toast('Role updated')})}catch(e){$('#usersBox').innerHTML='<p>'+esc(e.message)+'</p>'}}
-document.querySelectorAll('.m-nav button[data-view]').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.m-nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');let usersView=b.dataset.view==='users';$('#productsView').classList.toggle('hidden',usersView);$('#usersView').classList.toggle('hidden',!usersView);if(usersView)await loadUsers()});
-(async()=>{try{let d=await api('/api/store/me');me=d.account;if(!me){location.replace('/store/?login=1&return=manage');return}let role=(me.role||'customer').toLowerCase();if(!['editor','manager','owner'].includes(role)){location.replace('/store/');return}$('#who').textContent=me.minecraftUsername||me.email;$('#role').textContent=role.toUpperCase();let mcName=String(me.minecraftUsername||'').trim();let head=$('#playerHead');if(mcName){head.src='https://mc-heads.net/avatar/'+encodeURIComponent(mcName)+'/64';head.onerror=()=>{head.style.display='none'}}else{head.style.display='none'};products=await api('/api/store/admin/products');$('#loading').classList.add('hidden');$('#productsView').classList.remove('hidden');render()}catch(e){if(e.status===401)location.replace('/store/?login=1&return=manage');else $('#loading').innerHTML='<h2>'+esc(e.message)+'</h2>'}})();
+
+function orderMoney(n){return '$'+Number(n||0).toFixed(2)}
+function orderDate(v){if(!v)return 'Unknown';let d=new Date(v);return isNaN(d)?'Unknown':d.toLocaleString()}
+function orderStatus(v,fallback='pending'){return String(v||fallback).toLowerCase()}
+function renderOrders(){
+  const box=$('#ordersBox'); if(!box)return;
+  const q=String($('#orderSearch')?.value||'').trim().toLowerCase();
+  const pf=$('#paymentFilter')?.value||'', df=$('#deliveryFilter')?.value||'';
+  const list=orders.filter(o=>{
+    const hay=[o.id,o.email,o.minecraftUsername,o.productName,o.productNames?.join?.(' ')].join(' ').toLowerCase();
+    return (!q||hay.includes(q))&&(!pf||orderStatus(o.paymentStatus)===pf)&&(!df||orderStatus(o.deliveryStatus)===df);
+  });
+  const paid=orders.filter(o=>orderStatus(o.paymentStatus)==='paid');
+  const delivered=orders.filter(o=>orderStatus(o.deliveryStatus)==='delivered').length;
+  const pending=orders.filter(o=>orderStatus(o.deliveryStatus)==='pending').length;
+  const revenue=paid.reduce((s,o)=>s+Number(o.amount||o.total||0),0);
+  $('#orderStats').innerHTML=`<div class="m-stat"><strong>${orders.length}</strong><small>Total Orders</small></div><div class="m-stat"><strong>${pending}</strong><small>Awaiting Delivery</small></div><div class="m-stat"><strong>${delivered}</strong><small>Delivered</small></div><div class="m-stat"><strong>${orderMoney(revenue)}</strong><small>Paid Revenue</small></div>`;
+  if(!list.length){box.innerHTML='<div class="m-order-empty">No orders match these filters.</div>';return}
+  box.innerHTML=list.map(o=>{
+    const products=(o.productNames&&o.productNames.length?o.productNames:[o.productName||'Unknown product']).map(esc).join(', ');
+    const pay=orderStatus(o.paymentStatus), del=orderStatus(o.deliveryStatus);
+    return `<article class="m-order">
+      <div class="m-order-main"><div class="m-order-id"><strong>#${esc(String(o.id||'').slice(0,12))}</strong><small>${esc(orderDate(o.createdAt))}</small></div>
+      <div><strong>${esc(o.minecraftUsername||'No Minecraft name')}</strong><small>${esc(o.email||'No email')}</small></div>
+      <div><strong>${products}</strong><small>${esc(o.edition||'java').toUpperCase()}</small></div>
+      <div class="m-order-total">${orderMoney(o.amount||o.total||0)}</div></div>
+      <div class="m-order-controls">
+        <label>Payment<select class="m-btn orderPay" data-id="${esc(o.id)}">
+          ${['pending','paid','refunded','failed'].map(x=>`<option value="${x}" ${pay===x?'selected':''}>${x[0].toUpperCase()+x.slice(1)}</option>`).join('')}
+        </select></label>
+        <label>Delivery<select class="m-btn orderDelivery" data-id="${esc(o.id)}">
+          ${['pending','delivered','failed'].map(x=>`<option value="${x}" ${del===x?'selected':''}>${x[0].toUpperCase()+x.slice(1)}</option>`).join('')}
+        </select></label>
+        <button class="m-btn saveOrder" data-id="${esc(o.id)}">Save Status</button>
+      </div>
+    </article>`;
+  }).join('');
+  document.querySelectorAll('.saveOrder').forEach(b=>b.onclick=async()=>{
+    const id=b.dataset.id;
+    const paymentStatus=document.querySelector(`.orderPay[data-id="${CSS.escape(id)}"]`).value;
+    const deliveryStatus=document.querySelector(`.orderDelivery[data-id="${CSS.escape(id)}"]`).value;
+    try{await api('/api/store/admin/orders/status',{method:'POST',body:JSON.stringify({orderId:id,paymentStatus,deliveryStatus})});toast('Order updated');await loadOrders()}catch(e){toast(e.message)}
+  });
+}
+async function loadOrders(){
+  try{orders=await api('/api/store/admin/orders');renderOrders()}
+  catch(e){$('#ordersBox').innerHTML='<div class="m-order-empty">'+esc(e.message)+'</div>'}
+}
+
+document.querySelectorAll('.m-nav button[data-view]').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.m-nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');let view=b.dataset.view;$('#productsView').classList.toggle('hidden',view!=='products');$('#usersView').classList.toggle('hidden',view!=='users');$('#ordersView').classList.toggle('hidden',view!=='orders');if(view==='users')await loadUsers();if(view==='orders')await loadOrders()});
+(async()=>{try{let d=await api('/api/store/me');me=d.account;if(!me){location.replace('/store/?login=1&return=manage');return}let role=(me.role||'customer').toLowerCase();if(!['editor','manager','owner'].includes(role)){location.replace('/store/');return};document.querySelector('[data-view="users"]').style.display=role==='owner'?'':'none';document.querySelector('[data-view="orders"]').style.display=['manager','owner'].includes(role)?'':'none'$('#who').textContent=me.minecraftUsername||me.email;$('#role').textContent=role.toUpperCase();let mcName=String(me.minecraftUsername||'').trim();let head=$('#playerHead');if(mcName){head.src='https://mc-heads.net/avatar/'+encodeURIComponent(mcName)+'/64';head.onerror=()=>{head.style.display='none'}}else{head.style.display='none'};products=await api('/api/store/admin/products');$('#loading').classList.add('hidden');$('#productsView').classList.remove('hidden');render()}catch(e){if(e.status===401)location.replace('/store/?login=1&return=manage');else $('#loading').innerHTML='<h2>'+esc(e.message)+'</h2>'}})();

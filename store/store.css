@@ -104,3 +104,18 @@ linear-gradient(rgba(10,30,23,.62),rgba(3,14,11,.92))}
 .m-side-bottom{margin-top:auto;gap:8px;padding-top:10px}.m-status{padding:11px 12px;background:rgba(2,31,21,.82) !important;backdrop-filter:blur(3px) !important}
 .m-slogan{padding:4px 10px 0;font-size:17px}.m-slogan b{margin-top:7px}.m-version{padding:0 5px 1px}
 @media(max-height:760px){.m-side{padding-top:10px}.m-brand img{max-height:108px !important}.m-nav button{min-height:36px;padding:7px 10px;margin:2px 0}.m-status{padding:9px 10px}.m-slogan{font-size:14px;display:block}.m-version{font-size:9px}}
+
+
+/* ===== CedarMC v4.6 Orders ===== */
+.m-orders{display:grid;gap:12px;margin-top:14px}
+.m-order{border:1px solid rgba(91,255,173,.16);border-radius:12px;background:rgba(3,22,16,.82);box-shadow:0 10px 30px rgba(0,0,0,.18);overflow:hidden}
+.m-order-main{display:grid;grid-template-columns:1.05fr 1.35fr 2fr .65fr;gap:16px;align-items:center;padding:16px 18px}
+.m-order-main>div{min-width:0}.m-order-main strong{display:block;color:#eefdf5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.m-order-main small{display:block;color:#83a897;margin-top:4px}
+.m-order-id strong{color:#42f49a}.m-order-total{font-size:20px;font-weight:800;color:#66ffad;text-align:right}
+.m-order-controls{display:flex;align-items:end;gap:10px;padding:12px 18px;border-top:1px solid rgba(91,255,173,.10);background:rgba(1,14,10,.46)}
+.m-order-controls label{display:grid;gap:5px;color:#82a996;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.m-order-controls select{min-width:135px}
+.m-order-controls .saveOrder{margin-left:auto}
+.m-order-empty{padding:30px;text-align:center;border:1px dashed rgba(91,255,173,.18);border-radius:12px;color:#83a897;background:rgba(3,22,16,.55)}
+.m-order-tools{grid-template-columns:minmax(260px,1fr) 180px 180px}
+@media(max-width:1050px){.m-order-main{grid-template-columns:1fr 1fr}.m-order-total{text-align:left}.m-order-controls{flex-wrap:wrap}.m-order-controls .saveOrder{margin-left:0}}
+@media(max-width:720px){.m-order-main{grid-template-columns:1fr}.m-order-tools{grid-template-columns:1fr}.m-order-controls{align-items:stretch;flex-direction:column}.m-order-controls select{width:100%}}
