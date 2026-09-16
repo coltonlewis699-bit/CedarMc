@@ -65,23 +65,30 @@ linear-gradient(rgba(10,30,23,.62),rgba(3,14,11,.92))}
 .m-version{font-size:10px;color:#8aa99d;padding:0 7px}.m-top{height:82px}.m-content{padding-top:27px}
 @media(max-height:760px){.m-brand img{height:98px}.m-nav button{min-height:38px;padding:8px 11px;margin:2px 0}.m-slogan{display:none}.m-side-bottom{gap:7px}}
 
-/* ===== CedarMC v4.3 approved forest sidebar ===== */
+/* ===== CedarMC v4.4 CLEAN SIDEBAR — no forest background image ===== */
 .m-side{
   background:
-    linear-gradient(180deg,rgba(0,15,10,.10) 0%,rgba(0,18,12,.18) 42%,rgba(0,10,7,.12) 100%),
-    url("assets/cedarmc-sidebar-forest.jpg") center top/cover no-repeat !important;
+    radial-gradient(circle at 50% 15%,rgba(23,132,82,.13),transparent 30%),
+    linear-gradient(180deg,#061b14 0%,#03140f 48%,#020e0b 100%) !important;
 }
 .m-side::after{
-  background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,15,10,.06) 45%,rgba(0,0,0,.10)) !important;
+  background:
+    linear-gradient(90deg,rgba(38,244,143,.025),transparent 28%,transparent 72%,rgba(38,244,143,.025)) !important;
+}
+.m-brand img{
+  mix-blend-mode:normal !important;
 }
 .m-nav button{
-  background:rgba(2,22,15,.28);
-  backdrop-filter:blur(2px);
+  background:rgba(4,27,20,.58) !important;
+  backdrop-filter:none !important;
 }
 .m-nav button.active{
-  background:rgba(4,61,39,.76);
-  border:1px solid rgba(42,246,143,.72);
-  border-left:4px solid #2cff91;
-  box-shadow:0 0 18px rgba(33,245,135,.10),inset 0 0 18px rgba(33,245,135,.06);
+  background:linear-gradient(90deg,rgba(8,69,45,.92),rgba(4,42,30,.82)) !important;
+  border:1px solid rgba(42,246,143,.62) !important;
+  border-left:4px solid #2cff91 !important;
+  box-shadow:0 0 16px rgba(33,245,135,.09),inset 0 0 15px rgba(33,245,135,.045) !important;
 }
-.m-status{background:rgba(2,31,21,.82)}
+.m-status{
+  background:rgba(3,31,22,.94) !important;
+  backdrop-filter:none !important;
+}
